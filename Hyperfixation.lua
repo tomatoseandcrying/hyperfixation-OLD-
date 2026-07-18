@@ -660,12 +660,12 @@ function Hyperfixation.credits_ui()
                     {
                         label = "Isaac",
                         chosen = true,
-                        tab_definition_function = Hyperfixation.isaac,
+                        tab_definition_function = Hyperfixation.isaac_ui,
                     },
                     {
                         label = "Inscryption",
                         chosen = false,
-                        tab_definition_function = Hyperfixation.inscryption,
+                        tab_definition_function = Hyperfixation.inscryption_ui,
                     },
                     {
                         label = "4Fun",
@@ -675,7 +675,7 @@ function Hyperfixation.credits_ui()
                     {
                         label = "Other Help",
                         chosen = false,
-                        tab_definition_function = Hyperfixation.other_help,
+                        tab_definition_function = Hyperfixation.other_help_ui,
                     },
                     {
                         label = "bwuh",
@@ -726,7 +726,7 @@ function Hyperfixation.generate_credits_desc_nodes(entry)
     end
 
     return {
-        n = G.UIT.ROOT,
+        n = G.UIT.R,
         config = { emboss = 0.05, r = 0.1, align = "tl", padding = 0.2, colour = G.C.UI.TEXT_INACTIVE },
         nodes = {
             {
@@ -738,11 +738,13 @@ function Hyperfixation.generate_credits_desc_nodes(entry)
                     {
                         n = G.UIT.R,
                         config = { emboss = 0.05, r = 0.1, align = "tl", padding = 0.05, colour = G.C.WHITE },
-                        nodes =
-                            name
+                        nodes = name
                     },
                     -- Sentence
-                    { n = G.UIT.R, config = { align = "tl", padding = 0.05 }, nodes = credits_rows
+                    { 
+                        n = G.UIT.R, 
+                        config = { align = "tl", padding = 0.05, }, 
+                        nodes = credits_rows
                     },
 
                 }
@@ -762,217 +764,187 @@ end
 
 --#region Isaac Credits
 Hyperfixation.isaac_credits_table = {
-    { { { name = "astra", category = "isaac", joker = "j_hpfx_mary", }, }, },
-    { { { name = "bagersdozenbagels", category = "isaac", joker = "j_hpfx_cyanosis", }, }, },
-    { { { name = "delirium", category = "isaac", joker = "j_hpfx_jolyne", }, }, },
-    { { { name = "ejwu", category = "isaac", joker = "j_hpfx_cyanosis", }, }, },
-    { { { name = "eremel", category = "isaac", joker = "j_hpfx_jolyne", }, }, },
-    { { { name = "foxdeploy", category = "isaac", joker = "j_hpfx_jolyne", }, }, },
-    { { { name = "lars", category = "isaac", joker = "j_hpfx_farmer", }, }, },
-    { { { name = "n", category = "isaac", joker = "j_hpfx_iscariot", }, }, },
-    { { { name = "somecom", category = "isaac", joker = "j_hpfx_jolyne", }, }, },
-    { { { name = "srock", category = "isaac", joker = "j_hpfx_mary", }, }, },
-    { { { name = "winter", category = "isaac", joker = "j_hpfx_mary", }, }, },
-    { { { name = "youh", category = "isaac", joker = "j_hpfx_jolyne", }, }, },
+    { name = "astra", category = "isaac", joker = "j_hpfx_mary", },
+    { name = "bagersdozenbagels", category = "isaac", joker = "j_hpfx_cyanosis", }, 
+    { name = "delirium", category = "isaac", joker = "j_hpfx_jolyne", },
+    { name = "ejwu", category = "isaac", joker = "j_hpfx_cyanosis", },
+    { name = "eremel", category = "isaac", joker = "j_hpfx_jolyne", },
+    { name = "foxdeploy", category = "isaac", joker = "j_hpfx_jolyne", },
+    { name = "lars", category = "isaac", joker = "j_hpfx_farmer", },
+    { name = "n", category = "isaac", joker = "j_hpfx_iscariot", },
+    { name = "somecom", category = "isaac", joker = "j_hpfx_jolyne", },
+    { name = "srock", category = "isaac", joker = "j_hpfx_mary", },
+    { name = "winter", category = "isaac", joker = "j_hpfx_mary", },
+    { name = "youh", category = "isaac", joker = "j_hpfx_jolyne", },
 }
 
-Hyperfixation.isaac_selected_credits_page = 1
-
-function G.FUNCS.isaac_page(args)
-    if not G.OVERLAY_MENU then
-        return
-    end
-    Hyperfixation.isaac_selected_credits_page = args.to_key
-    local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Isaac")
-    G.FUNCS.change_tab(element)
-end
-
-function Hyperfixation.isaac()
-    G.mul_credits = {}
-    return {
-        n = G.UIT.ROOT,
-        config = { colour = G.C.CLEAR, align = "cm", minh = 6, r = 0.1, padding = 0.1, emboss = 0.05 },
-        nodes = {
-            {
-                n = G.UIT.O,
-                config = {
-                    object = UIBox({
-                        definition = Hyperfixation.isaac_ui(Hyperfixation.isaac_selected_credits_page),
-                        config = { type = "cm" },
-                    }),
-                },
-            },
-        },
-    }
-end
-
-function Hyperfixation.isaac_ui(page)
+function Hyperfixation.isaac_ui()
     rows = {}
 
-    if type(Hyperfixation.isaac_credits_table[page]) == "table" then
-        for _, row in ipairs(Hyperfixation.isaac_credits_table[page]) do
-            local row_items = {}
-            for _, item in ipairs(row) do
-                table.insert(row_items, Hyperfixation.generate_credits_desc_nodes(item))
-            end
-            table.insert(rows, {
-                n = G.UIT.R,
-                config = { align = "cm" },
-                nodes = row_items,
-            })
-        end
+    for _, entry in ipairs(Hyperfixation.isaac_credits_table) do
+        rows[#rows + 1] = Hyperfixation.generate_credits_desc_nodes(entry)
     end
 
-    local pages = {}
-    for i, _ in ipairs(Hyperfixation.isaac_credits_table) do
-        table.insert(pages, localize("k_page") .. string.format(" %s/%s", i, #Hyperfixation.isaac_credits_table))
-    end
-    table.insert(rows, {
-        n = G.UIT.R,
-        config = { align = "cm" },
-        nodes = {
-            {
-                n = G.UIT.C,
-                config = { align = "cm" },
-                nodes = {
-                    create_option_cycle({
-                        options = pages,
-                        current_option = page,
-                        opt_callback = "isaac_page",
-                    }),
-                },
-            },
-        },
-    })
+    local scrollbox = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.BLACK },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", padding = 0.1 },
+						nodes = rows,
+					},
+				},
+			},
+			config = { align = "cm" },
+		},
+		overflow = {
+			node_config = {
+				maxh = 6,
+				r = 0.1,
+			},
+		},
+		sync_mode = "progress",
+	})
 
     return {
-        n = G.UIT.ROOT,
-        config = { align = "cm", colour = G.C.BLACK },
-        nodes = {
-            {
-                n = G.UIT.C,
-                config = { align = "cm", padding = 0.05 },
-                nodes = rows,
-            },
-        },
-    }
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.BLACK, padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm", colour = G.C.L_BLACK, padding = 0.1, r = 0.1, emboss = 0.05 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							align = "cm",
+							object = scrollbox,
+						},
+					},
+				},
+			},
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					SMODS.GUI.scrollbar({
+						h = 6,
+						w = 0.3,
+						max = 1,
+						min = 0,
+						colour = HEX("FCB3EA"),
+						bg_colour = { 0, 0, 0, 0.15 },
+						scroll_collision_obj = scrollbox,
+					}),
+				},
+			},
+		},
+	}
 end
 
 --#endregion
 --#region Inscryption Credits
 Hyperfixation.inscryption_credits_table = {
-    { { { name = "carrot", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "carrymehome", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "cheekyrotter", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "corobo", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "delirium", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "dex", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "dilly", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "eremel", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "eris", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "fey", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "finity", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "hamester", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "huey", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "johndebugplus", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "misen", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "n", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "nxkoo", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "ruby", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "somecom", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "sleepy", category = "inscryption", joker = "j_hpfx_ijiraq", }, }, },
-    { { { name = "srock", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "thedge", category = "inscryption", joker = "j_hpfx_ijiraq", }, }, },
-    { { { name = "victin", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "winter", category = "inscryption", joker = "j_hpfx_chud", }, }, },
+    { name = "carrot", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "carrymehome", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "cheekyrotter", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "corobo", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "delirium", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "dex", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "dilly", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "eremel", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "eris", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "fey", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "finity", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "hamester", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "huey", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "johndebugplus", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "misen", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "n", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "nxkoo", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "ruby", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "somecom", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "sleepy", category = "inscryption", joker = "j_hpfx_ijiraq", },
+    { name = "srock", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "thedge", category = "inscryption", joker = "j_hpfx_ijiraq", },
+    { name = "victin", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "winter", category = "inscryption", joker = "j_hpfx_chud", },
     -- Mod
-    { { { name = "morefluff", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "ortalab", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "squidguset", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "steamodded", category = "inscryption", joker = "j_hpfx_chud", }, }, },
-    { { { name = "vanillaremade", category = "inscryption", joker = "j_hpfx_chud", }, }, },
+    { name = "morefluff", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "ortalab", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "squidguset", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "steamodded", category = "inscryption", joker = "j_hpfx_chud", },
+    { name = "vanillaremade", category = "inscryption", joker = "j_hpfx_chud", },
 }
 
-Hyperfixation.inscryption_selected_credits_page = 1
-
-function G.FUNCS.inscryption_page(args)
-    if not G.OVERLAY_MENU then
-        return
-    end
-    Hyperfixation.inscryption_selected_credits_page = args.to_key
-    local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Inscryption")
-    G.FUNCS.change_tab(element)
-end
-
-function Hyperfixation.inscryption()
-    G.mul_credits = {}
-    return {
-        n = G.UIT.ROOT,
-        config = { colour = G.C.CLEAR, align = "cm", minh = 6, r = 0.1, padding = 0.1, emboss = 0.05 },
-        nodes = {
-            {
-                n = G.UIT.O,
-                config = {
-                    object = UIBox({
-                        definition = Hyperfixation.inscryption_ui(Hyperfixation.inscryption_selected_credits_page),
-                        config = { type = "cm" },
-                    }),
-                },
-            },
-        },
-    }
-end
-
-function Hyperfixation.inscryption_ui(page)
+function Hyperfixation.inscryption_ui()
     rows = {}
 
-    if type(Hyperfixation.inscryption_credits_table[page]) == "table" then
-        for _, row in ipairs(Hyperfixation.inscryption_credits_table[page]) do
-            local row_items = {}
-            for _, item in ipairs(row) do
-                table.insert(row_items, Hyperfixation.generate_credits_desc_nodes(item))
-            end
-            table.insert(rows, {
-                n = G.UIT.R,
-                config = { align = "cm" },
-                nodes = row_items,
-            })
-        end
+    for _, entry in ipairs(Hyperfixation.inscryption_credits_table) do
+        rows[#rows + 1] = Hyperfixation.generate_credits_desc_nodes(entry)
     end
 
-    local pages = {}
-    for i, _ in ipairs(Hyperfixation.inscryption_credits_table) do
-        table.insert(pages, localize("k_page") .. string.format(" %s/%s", i, #Hyperfixation.inscryption_credits_table))
-    end
-    table.insert(rows, {
-        n = G.UIT.R,
-        config = { align = "cm" },
-        nodes = {
-            {
-                n = G.UIT.C,
-                config = { align = "cm" },
-                nodes = {
-                    create_option_cycle({
-                        options = pages,
-                        current_option = page,
-                        opt_callback = "inscryption_page",
-                    }),
-                },
-            },
-        },
-    })
+    local scrollbox = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.BLACK },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", padding = 0.1 },
+						nodes = rows,
+					},
+				},
+			},
+			config = { align = "cm" },
+		},
+		overflow = {
+			node_config = {
+				maxh = 6,
+				r = 0.1,
+			},
+		},
+		sync_mode = "progress",
+	})
 
     return {
-        n = G.UIT.ROOT,
-        config = { align = "cm", colour = G.C.BLACK },
-        nodes = {
-            {
-                n = G.UIT.C,
-                config = { align = "cm", padding = 0.05 },
-                nodes = rows,
-            },
-        },
-    }
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.BLACK, padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm", colour = G.C.L_BLACK, padding = 0.1, r = 0.1, emboss = 0.05 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							align = "cm",
+							object = scrollbox,
+						},
+					},
+				},
+			},
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					SMODS.GUI.scrollbar({
+						h = 6,
+						w = 0.3,
+						max = 1,
+						min = 0,
+						colour = HEX("FCB3EA"),
+						bg_colour = { 0, 0, 0, 0.15 },
+						scroll_collision_obj = scrollbox,
+					}),
+				},
+			},
+		},
+	}
 end
 
 --#endregion
@@ -1003,91 +975,76 @@ end
 
 --#endregion
 --#region Other Help Credits
-Hyperfixation.other_help_selected_credits_page = 1
-
 Hyperfixation.other_help_credits_table = {
-    { { { name = "thedge", category = "other_help", joker = "j_hpfx_jolyne", }, }, },
-    { { { name = "sweetiebabyhoneygravy", category = "other_help", joker = next(SMODS.find_mod("Incognito")) and "j_nic_tetoraq" or "j_hpfx_jolyne", }, }, },
+    { name = "thedge", category = "other_help", joker = "j_hpfx_jolyne", },
+    { name = "sweetiebabyhoneygravy", category = "other_help", joker = next(SMODS.find_mod("Incognito")) and "j_nic_tetoraq" or "j_hpfx_jolyne", },
 }
 
-function G.FUNCS.other_help_page(args)
-    if not G.OVERLAY_MENU then
-        return
-    end
-    Hyperfixation.other_help_selected_credits_page = args.to_key
-    local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Other Help")
-    G.FUNCS.change_tab(element)
-end
-
-function Hyperfixation.other_help()
-    G.mul_credits = {}
-    return {
-        n = G.UIT.ROOT,
-        config = { colour = G.C.CLEAR, align = "cm", minh = 6, r = 0.1, padding = 0.1, emboss = 0.05 },
-        nodes = {
-            {
-                n = G.UIT.O,
-                config = {
-                    object = UIBox({
-                        definition = Hyperfixation.other_help_ui(Hyperfixation.other_help_selected_credits_page),
-                        config = { type = "cm" },
-                    }),
-                },
-            },
-        },
-    }
-end
-
-function Hyperfixation.other_help_ui(page)
+function Hyperfixation.other_help_ui()
     rows = {}
 
-    if type(Hyperfixation.other_help_credits_table[page]) == "table" then
-        for _, row in ipairs(Hyperfixation.other_help_credits_table[page]) do
-            local row_items = {}
-            for _, item in ipairs(row) do
-                table.insert(row_items, Hyperfixation.generate_credits_desc_nodes(item))
-            end
-            table.insert(rows, {
-                n = G.UIT.R,
-                config = { align = "cm" },
-                nodes = row_items,
-            })
-        end
+    for _, entry in ipairs(Hyperfixation.other_help_credits_table) do
+        rows[#rows + 1] = Hyperfixation.generate_credits_desc_nodes(entry)
     end
 
-    local pages = {}
-    for i, _ in ipairs(Hyperfixation.other_help_credits_table) do
-        table.insert(pages, localize("k_page") .. string.format(" %s/%s", i, #Hyperfixation.other_help_credits_table))
-    end
-    table.insert(rows, {
-        n = G.UIT.R,
-        config = { align = "cm" },
-        nodes = {
-            {
-                n = G.UIT.C,
-                config = { align = "cm" },
-                nodes = {
-                    create_option_cycle({
-                        options = pages,
-                        current_option = page,
-                        opt_callback = "other_help_page",
-                    }),
-                },
-            },
-        },
-    })
+    local scrollbox = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.BLACK },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", padding = 0.1 },
+						nodes = rows,
+					},
+				},
+			},
+			config = { align = "cm" },
+		},
+		overflow = {
+			node_config = {
+				maxh = 6,
+				r = 0.1,
+			},
+		},
+		sync_mode = "progress",
+	})
 
     return {
-        n = G.UIT.ROOT,
-        config = { align = "cm", colour = G.C.BLACK },
-        nodes = {
-            {
-                n = G.UIT.C,
-                config = { align = "cm", padding = 0.05 },
-                nodes = rows,
-            },
-        },
-    }
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.BLACK, padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm", colour = G.C.L_BLACK, padding = 0.1, r = 0.1, emboss = 0.05 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							align = "cm",
+							object = scrollbox,
+						},
+					},
+				},
+			},
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					SMODS.GUI.scrollbar({
+						h = 6,
+						w = 0.3,
+						max = 1,
+						min = 0,
+						colour = HEX("FCB3EA"),
+						bg_colour = { 0, 0, 0, 0.15 },
+						scroll_collision_obj = scrollbox,
+					}),
+				},
+			},
+		},
+	}
 end
 
 --#endregion

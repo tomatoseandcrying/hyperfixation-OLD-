@@ -121,7 +121,7 @@ SMODS.Joker({
         badges[#badges + 1] = create_badge(localize('hpfx_cabin'), G.C.BLACK, HEX("F97717"), 1.2)
     end,
     calculate = function(self, card, context)
-        if context.check_eternal then
+        if card.getting_sliced then
             if card.ability.extra.deaths > 1 then
                 card.ability.extra.deaths = card.ability.extra.deaths - 1
                 card:juice_up(0.8, 0.8)
@@ -129,9 +129,6 @@ SMODS.Joker({
             else
                 return { no_destroy = false }
             end
-        end
-        if card.getting_sliced then
-            SMODS.calculate_context({ check_eternal = true }, card)
         end
     end,
     in_pool = function(self, args)
@@ -167,7 +164,7 @@ SMODS.Joker({
     },
     rarity = 2,
     cost = 10,
-    config = { trig = false },
+    config = { },
     no_collection = true,
     unlocked = true,
     discovered = true,
@@ -195,14 +192,13 @@ SMODS.Joker({
         card:add_sticker('hpfx_priceless')
     end,
     calculate = function(self, card, context)
-        if card.getting_sliced and card.ability.trig == false then
+        if card.getting_sliced then
             card:juice_up(0.8, 0.8)
             SMODS.add_card {
                 set = 'Joker',
                 key = 'j_hpfx_opossum',
                 key_append = 'hpfx_possumblock'
             }
-            card.ability.trig = true
             return { no_destroy = false }
         end
     end,

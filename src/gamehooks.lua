@@ -258,11 +258,11 @@ function Game:update(dt)
         Hyperfixation.updatecollectionitems()
     end
     for _, card in pairs(G.I.CARD) do
-        if card.config and card.config.center and card.config.center.hpfx_old_art_pos and card.children and card.children.center then
+        if card.config and card.config.center and card.config.center.hpfx_old_art_pos and card.children and card.children.center and card.config.center.discovered == true then
             local center = card.config.center
             local c_pos = Hyperfixation.current_mod.config.rebirth and center.pos or center.hpfx_old_art_pos
             card.children.center:set_sprite_pos(c_pos)
-            if card.children.front and center.soul_pos and center.hpfx_old_art_soul_pos then
+            if card.children.front and center.soul_pos and center.hpfx_old_art_soul_pos and card.config.center.discovered == true then
                 local s_pos = Hyperfixation.current_mod.config.rebirth and center.soul_pos or
                     center.hpfx_old_art_soul_pos
                 card.children.front:set_sprite_pos(s_pos)

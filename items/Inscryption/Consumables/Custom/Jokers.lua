@@ -2,8 +2,8 @@ SMODS.Joker({
     key = 'squirrel',
     atlas = 'InscryptionJokers',
     pos = { x = 0, y = 2 },
-    soul_pos = { 
-        x = 1, 
+    soul_pos = {
+        x = 1,
         y = 0,
         draw = function(card, scale_mod, rotate_mod)
             scale_mod = 0.07 + 0.02 * math.sin(1.8 * G.TIMERS.REAL) +
@@ -69,8 +69,8 @@ SMODS.Joker({
     key = 'blackgoat',
     atlas = 'InscryptionJokers',
     pos = { x = 0, y = 2 },
-    soul_pos = { 
-        x = 2, 
+    soul_pos = {
+        x = 2,
         y = 0,
         draw = function(card, scale_mod, rotate_mod)
             scale_mod = 0.07 + 0.02 * math.sin(1.8 * G.TIMERS.REAL) +
@@ -121,7 +121,7 @@ SMODS.Joker({
         badges[#badges + 1] = create_badge(localize('hpfx_cabin'), G.C.BLACK, HEX("F97717"), 1.2)
     end,
     calculate = function(self, card, context)
-        if context.check_eternal then
+        if card.getting_sliced then
             if card.ability.extra.deaths > 1 then
                 card.ability.extra.deaths = card.ability.extra.deaths - 1
                 card:juice_up(0.8, 0.8)
@@ -129,9 +129,6 @@ SMODS.Joker({
             else
                 return { no_destroy = false }
             end
-        end
-        if card.getting_sliced then
-            SMODS.calculate_context({ check_eternal = true }, card)
         end
     end,
     in_pool = function(self, args)
@@ -143,8 +140,8 @@ SMODS.Joker({
     key = 'frozenopossum',
     atlas = 'InscryptionJokers',
     pos = { x = 0, y = 2 },
-    soul_pos = { 
-        x = 3, 
+    soul_pos = {
+        x = 3,
         y = 0,
         draw = function(card, scale_mod, rotate_mod)
             scale_mod = 0.07 + 0.02 * math.sin(1.8 * G.TIMERS.REAL) +
@@ -167,7 +164,7 @@ SMODS.Joker({
     },
     rarity = 2,
     cost = 10,
-    config = { trig = false },
+    config = { },
     no_collection = true,
     unlocked = true,
     discovered = true,
@@ -196,16 +193,12 @@ SMODS.Joker({
     end,
     calculate = function(self, card, context)
         if card.getting_sliced then
-            SMODS.calculate_context({ check_eternal = true }, card)
-        end
-        if context.check_eternal and card.getting_sliced and card.ability.trig == false then
             card:juice_up(0.8, 0.8)
             SMODS.add_card {
                 set = 'Joker',
                 key = 'j_hpfx_opossum',
                 key_append = 'hpfx_possumblock'
             }
-            card.ability.trig = true
             return { no_destroy = false }
         end
     end,
@@ -218,8 +211,8 @@ SMODS.Joker({
     key = 'opossum',
     atlas = 'InscryptionJokers',
     pos = { x = 0, y = 2 },
-    soul_pos = { 
-        x = 4, 
+    soul_pos = {
+        x = 4,
         y = 0,
         draw = function(card, scale_mod, rotate_mod)
             scale_mod = 0.07 + 0.02 * math.sin(1.8 * G.TIMERS.REAL) +

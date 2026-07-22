@@ -17,191 +17,191 @@ position = "at"
 payload = "or (Hyperfixation and Hyperfixation.blind_has_name(self, '$blindname'))"
 
 # blind assists
-[[patches]]
-[patches.pattern]
-target = 'game.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-    G.GAME.blind = Blind(0,0,2, 1)
-'''
-payload = '''
-    G.GAME.blindassist = Blind(0,0,2,1)
-'''
+# [[patches]]
+# [patches.pattern]
+# target = 'game.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#     G.GAME.blind = Blind(0,0,2, 1)
+# '''
+# payload = '''
+#     G.GAME.blindassist = Blind(0,0,2,1)
+# '''
 
 
 # blind assists
-[[patches]]
-[patches.pattern]
-target = 'game.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-        G.GAME.blind:load(saveTable.BLIND)
-'''
-payload = '''
-        G.GAME.blindassist:load(saveTable.BLINDASSIST)
-'''
+# [[patches]]
+# [patches.pattern]
+# target = 'game.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#         G.GAME.blind:load(saveTable.BLIND)
+# '''
+# payload = '''
+#         G.GAME.blindassist:load(saveTable.BLINDASSIST)
+# '''
 
 # blind assists
-[[patches]]
-[patches.pattern]
-target = 'game.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-        G.GAME.blind:set_blind(nil, nil, true)
-'''
-payload = '''
-        G.GAME.blindassist:set_blind(nil, nil, true)
-'''
-
-
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/misc_functions.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-    BLIND = G.GAME.blind:save(),
-'''
-payload = '''
-    BLINDASSIST = G.GAME.blindassist:save(),
-'''
-
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-    G.GAME.blind:set_blind(G.GAME.round_resets.blind)
-'''
-payload = '''
-if G.GAME.blind.blindassist then
-    G.GAME.blindassist:set_blind(G.GAME.blind.blindassist)
-end
-'''
+# [[patches]]
+# [patches.pattern]
+# target = 'game.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#         G.GAME.blind:set_blind(nil, nil, true)
+# '''
+# payload = '''
+#         G.GAME.blindassist:set_blind(nil, nil, true)
+# '''
 
 
 # blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-    SMODS.calculate_context({end_of_round = true, game_over = game_over, beat_boss = G.GAME.blind.boss })
-'''
-payload = '''
-G.GAME.last_joker = G.GAME.blind.boss
-'''
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/misc_functions.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#     BLIND = G.GAME.blind:save(),
+# '''
+# payload = '''
+#     BLINDASSIST = G.GAME.blindassist:save(),
+# '''
+
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/state_events.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#     G.GAME.blind:set_blind(G.GAME.round_resets.blind)
+# '''
+# payload = '''
+# if G.GAME.blind.blindassist then
+#     G.GAME.blindassist:set_blind(G.GAME.blind.blindassist)
+# end
+# '''
 
 
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/button_callbacks.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-      G.GAME.blind.states.visible = true
-'''
-payload = '''
-if G.GAME.blind.blindassist then
-      G.GAME.blindassist.states.visible = true
-end
-'''
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/state_events.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#     SMODS.calculate_context({end_of_round = true, game_over = game_over, beat_boss = G.GAME.blind.boss })
+# '''
+# payload = '''
+# G.GAME.last_joker = G.GAME.blind.boss
+# '''
 
 
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/button_callbacks.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-      G.GAME.blind.states.visible = false
-'''
-payload = '''
-if G.GAME.blind.blindassist then
-      G.GAME.blindassist.states.visible = false
-end
-'''
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/button_callbacks.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#       G.GAME.blind.states.visible = true
+# '''
+# payload = '''
+# if G.GAME.blind.blindassist then
+#       G.GAME.blindassist.states.visible = true
+# end
+# '''
 
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/UI_definitions.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-  blind_choice.animation =  SMODS.create_sprite(0,0, 1.4, 1.4, SMODS.get_atlas(blind_choice.config.atlas) or  'blind_chips',   blind_choice.config.pos) 
-'''
-payload = '''
-  local blind_assist = {}
-  if blind_choice.config.get_assist then
-    blind_assist.config = blind_choice.config.get_assist()
-    blind_assist.animation = AnimatedSprite(0,0, 1.4, 1.4, G.ANIMATION_ATLAS[blind_assist.config.atlas] or G.ANIMATION_ATLAS['blind_chips'],  blind_assist.config.pos)
-  	blind_assist.animation:define_draw_steps({
-  		{shader = 'dissolve', shadow_height = 0.05},
-  		{shader = 'dissolve'}
-  	})
-  end
-'''
 
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/UI_definitions.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-                {n=G.UIT.O, config={object = blind_choice.animation}},
-'''
-payload = '''
-                blind_assist.config and {n=G.UIT.O, config={object = blind_assist.animation}} or nil,
-'''
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/button_callbacks.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#       G.GAME.blind.states.visible = false
+# '''
+# payload = '''
+# if G.GAME.blind.blindassist then
+#       G.GAME.blindassist.states.visible = false
+# end
+# '''
 
-# blind assists
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-match_indent = true
-position = 'before'
-pattern = '''-- TARGET: add your own individual scoring targets
-'''
-payload = '''
-        if G.GAME.blindassist and G.GAME.blindassist.children and G.GAME.blindassist.children.animatedSprite and G.GAME.blindassist.config.blind then 
-            t[#t + 1] = { object = G.GAME.blindassist, scored_card = G.GAME.blindassist.children.animatedSprite } 
-        end
-'''
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/UI_definitions.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#   blind_choice.animation =  SMODS.create_sprite(0,0, 1.4, 1.4, SMODS.get_atlas(blind_choice.config.atlas) or  'blind_chips',   blind_choice.config.pos) 
+# '''
+# payload = '''
+#   local blind_assist = {}
+#   if blind_choice.config.get_assist then
+#     blind_assist.config = blind_choice.config.get_assist()
+#     blind_assist.animation = AnimatedSprite(0,0, 1.4, 1.4, G.ANIMATION_ATLAS[blind_assist.config.atlas] or G.ANIMATION_ATLAS['blind_chips'],  blind_assist.config.pos)
+#   	blind_assist.animation:define_draw_steps({
+#   		{shader = 'dissolve', shadow_height = 0.05},
+#   		{shader = 'dissolve'}
+#   	})
+#   end
+# '''
 
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'blind.lua'
-match_indent = true
-position = 'after'
-pattern = '''
-                self:change_colour()
-'''
-payload = '''
-local obj = self.config.blind
-if obj.load and type(obj.load) == 'function' then
-    obj:load()
-end
-'''
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/UI_definitions.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#                 {n=G.UIT.O, config={object = blind_choice.animation}},
+# '''
+# payload = '''
+#                 blind_assist.config and {n=G.UIT.O, config={object = blind_assist.animation}} or nil,
+# '''
 
-# blind assists
-[[patches]]
-[patches.pattern]
-target = 'functions/UI_definitions.lua'
-match_indent = true
-position = 'after'
-pattern = "{n=G.UIT.O, config={object = G.GAME.blind, draw_layer = 1}},"
-payload = '''
-{n=G.UIT.O, config={object = G.GAME.blindassist, draw_layer = 2}},
-'''
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = '=[SMODS _ "src/utils.lua"]'
+# match_indent = true
+# position = 'before'
+# pattern = '''-- TARGET: add your own individual scoring targets
+# '''
+# payload = '''
+#         if G.GAME.blindassist and G.GAME.blindassist.children and G.GAME.blindassist.children.animatedSprite and G.GAME.blindassist.config.blind then 
+#             t[#t + 1] = { object = G.GAME.blindassist, scored_card = G.GAME.blindassist.children.animatedSprite } 
+#         end
+# '''
+
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'blind.lua'
+# match_indent = true
+# position = 'after'
+# pattern = '''
+#                 self:change_colour()
+# '''
+# payload = '''
+# local obj = self.config.blind
+# if obj.load and type(obj.load) == 'function' then
+#     obj:load()
+# end
+# '''
+
+# # blind assists
+# [[patches]]
+# [patches.pattern]
+# target = 'functions/UI_definitions.lua'
+# match_indent = true
+# position = 'after'
+# pattern = "{n=G.UIT.O, config={object = G.GAME.blind, draw_layer = 1}},"
+# payload = '''
+# {n=G.UIT.O, config={object = G.GAME.blindassist, draw_layer = 2}},
+# '''

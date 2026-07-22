@@ -7,7 +7,7 @@ SMODS.Blind {
     dollars = G and G.GAME and G.GAME.blind.dollars or 1,
     mult = G and G.GAME and G.GAME.blind.dollars or 1,
     debuff = G and G.GAME and G.GAME.blind.debuff or {},
-    boss = { min = 1, max = 1000 },
+    boss = { min = 4, max = 1000 },
     boss_colour = G and G.GAME and G.GAME.blind.boss_colour or HEX("FCB3EA"),
     loc_vars = function(self)
         local nayme, naymer

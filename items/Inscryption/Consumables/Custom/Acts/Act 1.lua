@@ -362,7 +362,7 @@ SMODS.Consumable({
     atlas = 'InscryptionAct1Items',
     use = function(self, card, area, copier)
         play_sound('timpani')
-        G.GAME.round_resets.hands = G.GAME.round_resets.hands + 1
+        ease_hands_played(1)
         delay(0.6)
     end,
     can_use = function(self, card)

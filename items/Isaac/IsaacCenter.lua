@@ -112,7 +112,7 @@ function Blind:set_assist_blind(blind, reset, silent)
         self.basechips = get_blind_amount(G.GAME.round_resets.ante) * G.GAME.starting_params.ante_scaling
         self.basechips_text = number_format(self.basechips)
         self.mult_text = number_format(self.mult)
-        self.blindassist = blind and blind.blindassist or {}
+        --self.blindassist = blind and blind.blindassist or {}
 
         self.chips = get_blind_amount(G.GAME.round_resets.ante) * self.mult * G.GAME.starting_params.ante_scaling
         self.chip_text = number_format(self.chips)
@@ -213,9 +213,9 @@ function Blind:set_double_trouble_blind(idx1, idx2, reset, silent)
     -- function init
     self:set_blind(merged_blind, reset, silent)
     --stolen from Blindside
-    self.blindassist = nil
-    G.GAME.blindassist:set_assist_blind(idx2)
-    G.GAME.blindassist:change_dim(1.5, 1.5)
+    --self.blindassist = nil
+    --G.GAME.blindassist:set_assist_blind(idx2)
+    --G.GAME.blindassist:change_dim(1.5, 1.5)
 end
 
 function namingMyShitSafely(n)
